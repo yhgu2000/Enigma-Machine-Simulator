@@ -1,0 +1,6 @@
+debug
+release
+*.stash
+*.user
+Makefile*
+ui_*.h
