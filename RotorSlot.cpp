@@ -14,7 +14,7 @@
 RotorSlot::RotorSlot(QWidget* parent)
   : QFrame(parent)
   , ui(new Ui::RotorSlot)
-  , _editRotorDialog(_forwardRotor)
+  , _editRotorDialog()
   , _offset(0)
 {
   ui->setupUi(this);

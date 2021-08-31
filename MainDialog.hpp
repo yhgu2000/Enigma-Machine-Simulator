@@ -17,5 +17,11 @@ private:
 
 public:
   MainDialog(QWidget* parent = nullptr);
-  ~MainDialog();
+  ~MainDialog() override;
+
+protected:
+  virtual void keyPressEvent(QKeyEvent* e) override;
+
+private slots:
+  void when_em_charEncoded(QChar plain, QChar cipher);
 };

@@ -18,14 +18,20 @@ EnigmaMachine::~EnigmaMachine()
 }
 
 void
+EnigmaMachine::setFocus()
+{
+  ui->machineIn->setFocus();
+}
+
+void
 EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
 {
   if (arg1.size() == 0) {
     return;
   }
 
-  QChar ch = arg1.at(arg1.size() - 1);
-  if (!ch.isLetter()) {
+  QChar plain = arg1.at(arg1.size() - 1);
+  if (!plain.isLetter()) {
     ui->machineIn->clear();
     QToolTip::showText(
       ui->machineIn->mapToGlobal(QPoint(0, ui->machineIn->height() >> 1)),
@@ -35,7 +41,7 @@ EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
       1000);
     return;
   }
-  ui->machineIn->setText(ch);
+  ui->machineIn->setText(plain);
 
   // 推进一步
   for (auto i : _rotorSlots) {
@@ -43,12 +49,12 @@ EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
       break;
   }
 
-  bool isLower = ch.isLower();
+  bool isLower = plain.isLower();
   uint8_t x;
   if (isLower)
-    x = uint8_t(ch.toLatin1() - 'a');
+    x = uint8_t(plain.toLatin1() - 'a');
   else
-    x = uint8_t(ch.toLatin1() - 'A');
+    x = uint8_t(plain.toLatin1() - 'A');
 
   // 正射
   for (int i = 0; i < _rotorSlots.size(); ++i) {
@@ -74,12 +80,15 @@ EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
   }
 
   // 输出
+  QChar cipher;
   if (isLower)
-    ch = QChar(x + 'a');
+    cipher = QChar(x + 'a');
   else
-    ch = QChar(x + 'A');
+    cipher = QChar(x + 'A');
 
-  ui->machineOut->setText(ch);
+  ui->machineOut->setText(plain);
+
+  emit charEncoded(plain, cipher);
 }
 
 void

@@ -15,7 +15,7 @@ class EnigmaMachine : public QWidget
   Q_OBJECT
 
 signals:
-  void inputted(QChar plain, QChar cipher);
+  void charEncoded(QChar plain, QChar cipher);
 
 private:
   Ui::EnigmaMachine* ui;
@@ -28,8 +28,10 @@ public:
   explicit EnigmaMachine(QWidget *parent = nullptr);
   ~EnigmaMachine();
 
+public:
+  void setFocus();
+
 private slots:
   void on_machineIn_textEdited(const QString& arg1);
-
   void on_newRotorButton_clicked();
 };

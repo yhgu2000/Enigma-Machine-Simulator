@@ -12,17 +12,18 @@ class RotorSlot : public QFrame
 {
   Q_OBJECT
 
-private:
-  Ui::RotorSlot* ui;
-  EditRotorDialog _editRotorDialog;
-
-  uint8_t _offset;
-  Rotor _forwardRotor;
-  Rotor _reverseRotor;
+signals:
+  void handButton_pressed();
+  void handButton_released();
 
 public:
   explicit RotorSlot(QWidget* parent = nullptr);
   ~RotorSlot();
+
+private:
+  uint8_t _offset;
+  Rotor _forwardRotor;
+  Rotor _reverseRotor;
 
 public: // 属性方法
   uint8_t get_offset() { return _offset; }
@@ -45,9 +46,9 @@ public: // 功能性方法
     return _offset == 0;
   }
 
-signals:
-  void handButton_pressed();
-  void handButton_released();
+private:
+  Ui::RotorSlot* ui;
+  EditRotorDialog _editRotorDialog;
 
 private slots:
   void on_editButton_clicked();
