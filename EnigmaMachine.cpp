@@ -18,7 +18,7 @@ EnigmaMachine::~EnigmaMachine()
 }
 
 void
-EnigmaMachine::on_machineIn_textChanged(const QString& arg1)
+EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
 {
   if (arg1.size() == 0) {
     return;

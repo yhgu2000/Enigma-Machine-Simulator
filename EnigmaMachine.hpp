@@ -29,7 +29,7 @@ public:
   ~EnigmaMachine();
 
 private slots:
-  void on_machineIn_textChanged(const QString& arg1);
+  void on_machineIn_textEdited(const QString& arg1);
 
   void on_newRotorButton_clicked();
 };

@@ -44,13 +44,15 @@ RotorSlot::set_rotor(const Rotor& rot)
 uint8_t
 RotorSlot::forward_map(uint8_t pos)
 {
-  return _forwardRotor[(pos + _offset) % kRotorMod] - _offset;
+  auto t = _forwardRotor[(pos + _offset) % kRotorMod] - _offset;
+  return (t + kRotorMod) % kRotorMod;
 }
 
 uint8_t
 RotorSlot::reverse_map(uint8_t pos)
 {
-  return _reverseRotor[(pos + _offset) % kRotorMod] - _offset;
+  auto t = _reverseRotor[(pos + _offset) % kRotorMod] - _offset;
+  return (t + kRotorMod) % kRotorMod;
 }
 
 void
