@@ -19,7 +19,7 @@ SOURCES += \
     EditRotorDialog.cpp \
     EnigmaMachine.cpp \
     InfoBubble.cpp \
-    MainDialog.cpp \
+    MainWindow.cpp \
     Rotor.cpp \
     RotorSeparator.cpp \
     RotorSlot.cpp \
@@ -29,7 +29,7 @@ HEADERS += \
     EditRotorDialog.hpp \
     EnigmaMachine.hpp \
     InfoBubble.hpp \
-    MainDialog.hpp \
+    MainWindow.hpp \
     Rotor.hpp \
     RotorSeparator.hpp \
     RotorSlot.hpp
@@ -37,7 +37,7 @@ HEADERS += \
 FORMS += \
     EditRotorDialog.ui \
     EnigmaMachine.ui \
-    MainDialog.ui \
+    MainWindow.ui \
     RotorSeparator.ui \
     RotorSlot.ui
 

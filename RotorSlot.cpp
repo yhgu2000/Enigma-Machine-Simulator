@@ -14,11 +14,19 @@
 RotorSlot::RotorSlot(QWidget* parent)
   : QFrame(parent)
   , ui(new Ui::RotorSlot)
-  , _editRotorDialog()
   , _offset(0)
 {
   ui->setupUi(this);
-  ui->label->setText(_forwardRotor.hash());
+  set_rotor(Rotor::kDefault);
+
+  connect(&_editRotorDialog,
+          &EditRotorDialog::accepted,
+          this,
+          &RotorSlot::when_editRotorDialog_accepted);
+  connect(&_editRotorDialog,
+          &EditRotorDialog::applied,
+          this,
+          &RotorSlot::when_editRotorDialog_accepted);
 }
 
 RotorSlot::~RotorSlot()
@@ -38,6 +46,7 @@ void
 RotorSlot::set_rotor(const Rotor& rot)
 {
   _forwardRotor = rot;
+  _forwardRotor.reverse_to(_reverseRotor);
   ui->label->setText(_forwardRotor.hash());
 }
 
@@ -58,7 +67,8 @@ RotorSlot::reverse_map(uint8_t pos)
 void
 RotorSlot::on_editButton_clicked()
 {
-
+  _editRotorDialog.setWindowTitle(ui->label->text());
+  _editRotorDialog.set_rotor(_forwardRotor);
   _editRotorDialog.show();
   _editRotorDialog.activateWindow();
 }
@@ -89,4 +99,7 @@ RotorSlot::on_dial_valueChanged(int value)
 
 void
 RotorSlot::when_editRotorDialog_accepted()
-{}
+{
+  set_rotor(_editRotorDialog.get_rotor());
+  _editRotorDialog.setWindowTitle(ui->label->text());
+}

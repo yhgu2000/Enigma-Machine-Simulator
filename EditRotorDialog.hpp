@@ -17,6 +17,9 @@ class EditRotorDialog : public QDialog
 {
   Q_OBJECT
 
+signals:
+  void applied();
+
 private:
   // C++ 的类千万别声明在 .cpp 里，因为类不能是 static 的！
   // 用 private 类声明实现命名空间的保护！
@@ -81,6 +84,7 @@ private:
 
 public: // 属性方法
   const Rotor& get_rotor() { return _rotor; }
+  void set_rotor(const Rotor& rotor);
 
 private:
   std::array<QCheckBox*, kRotorMod> _lefts;
@@ -88,7 +92,18 @@ private:
   uint8_t _leftSelected; // 0xff 表明没有选中
   QPoint _mousePos;
 
+private:
+  // 经典 MVC 模式
+  void sync_m2v(); // 同步 model 到 view，需要在每次修改 model 后调用
+
 protected:
   virtual void paintEvent(QPaintEvent* event) override;
   virtual void mouseMoveEvent(QMouseEvent* event) override;
+
+private slots:
+  void on_randomButton_clicked();
+  void on_clearButton_clicked();
+  void on_copyButton_clicked();
+  void on_pasteButton_clicked();
+  void on_buttonBox_clicked(QAbstractButton* button);
 };

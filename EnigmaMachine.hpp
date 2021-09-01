@@ -34,4 +34,8 @@ public:
 private slots:
   void on_machineIn_textEdited(const QString& arg1);
   void on_newRotorButton_clicked();
+  void on_editReflectorButton_clicked();
+  void on_trashButton_clicked();
+  void on_loadButton_clicked();
+  void on_saveButton_clicked();
 };

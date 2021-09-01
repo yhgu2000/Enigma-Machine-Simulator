@@ -3,6 +3,10 @@
 #include "RotorSlot.hpp"
 #include "ui_EnigmaMachine.h"
 #include <QDebug>
+#include <QFile>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTextStream>
 #include <QToolTip>
 
 EnigmaMachine::EnigmaMachine(QWidget *parent) :
@@ -35,10 +39,7 @@ EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
     ui->machineIn->clear();
     QToolTip::showText(
       ui->machineIn->mapToGlobal(QPoint(0, ui->machineIn->height() >> 1)),
-      "⚠ enigma only accepts letters",
-      this,
-      QRect(),
-      1000);
+      tr("⚠ enigma only accepts letters"));
     return;
   }
   ui->machineIn->setText(plain);
@@ -75,8 +76,8 @@ EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
     auto& rsl = *(_rotorSlots[i]);
     auto& rse = *(_rotorSeps[i]);
 
-    rse.set_wireR2L(x);
     x = rsl.reverse_map(x);
+    rse.set_wireR2L(x);
   }
 
   // 输出
@@ -102,4 +103,133 @@ EnigmaMachine::on_newRotorButton_clicked()
 
   ui->rotorSetLayout->insertWidget(0, rsl);
   ui->rotorSetLayout->insertWidget(0, rse);
+}
+
+void
+EnigmaMachine::on_editReflectorButton_clicked()
+{
+  EditRotorDialog dlg;
+  dlg.setWindowTitle("REFLECTOR");
+  if (!dlg.exec())
+    return;
+  _reflector = dlg.get_rotor();
+}
+
+void
+EnigmaMachine::on_trashButton_clicked()
+{
+  // TODO 拖动删除
+  if (!_rotorSlots.isEmpty()) {
+    ui->rotorSetLayout->removeWidget(_rotorSeps[0]);
+    ui->rotorSetLayout->removeWidget(_rotorSlots[0]);
+
+    delete _rotorSeps[0];
+    delete _rotorSlots[0];
+
+    _rotorSlots.pop_front();
+    _rotorSeps.pop_front();
+  }
+}
+
+void
+EnigmaMachine::on_loadButton_clicked()
+{
+  auto s = QFileDialog::getOpenFileName(nullptr,
+                                        tr("Import from File ..."),
+                                        "",
+                                        tr("Enigma Machine Status (*.ems)"));
+  if (s.isEmpty())
+    return;
+
+  QFile f(s);
+  if (!f.open(QFile::ReadOnly | QFile::Text)) {
+    QMessageBox::critical(nullptr, tr("Load Failed"), tr("cannot open file"));
+    return;
+  }
+
+  QTextStream fin(&f);
+
+  int rotorNumber = 0;
+  fin >> rotorNumber;
+
+  Rotor reflector;
+  QVector<Rotor> rotors(rotorNumber);
+  QVector<int> offsets(rotorNumber);
+
+  QString tmp;
+  fin >> tmp;
+  if (!reflector.decode(tmp))
+    goto DECODING_FAILED;
+  for (int i = 0; i < rotorNumber; ++i) {
+    fin >> offsets[i];
+    fin >> tmp;
+    if (!rotors[i].decode(tmp))
+      goto DECODING_FAILED;
+  }
+  if (fin.status() != fin.Ok)
+    goto DECODING_FAILED;
+
+  // 调整窗口里的转子槽数
+  for (int i = _rotorSlots.size(); i < rotorNumber; ++i) {
+    _rotorSeps.push_front(new RotorSeparator());
+    _rotorSlots.push_front(new RotorSlot());
+    ui->rotorSetLayout->insertWidget(0, _rotorSlots.front());
+    ui->rotorSetLayout->insertWidget(0, _rotorSeps.front());
+  }
+  for (int i = rotorNumber; i < _rotorSlots.size(); ++i) {
+    ui->rotorSetLayout->removeWidget(_rotorSeps.front());
+    ui->rotorSetLayout->removeWidget(_rotorSlots.front());
+    delete _rotorSeps.front();
+    delete _rotorSlots.front();
+  }
+
+  // 设置机器状态
+  for (int i = 0; i < rotorNumber; ++i) {
+    _rotorSlots[i]->set_rotor(rotors[i]);
+    _rotorSlots[i]->set_offset(uint8_t(offsets[i]));
+  }
+  QMessageBox::information(nullptr, tr("Success"), tr("macine status loaded"));
+  return;
+
+DECODING_FAILED:
+  QMessageBox::critical(nullptr, tr("Load Failed"), tr("fail to dncode file"));
+}
+
+void
+EnigmaMachine::on_saveButton_clicked()
+{
+  auto s = QFileDialog::getSaveFileName(
+    nullptr, tr("Export to File ..."), "", tr("Enigma Machine Status (*.ems)"));
+  if (s.isEmpty())
+    return;
+
+  QFile f(s);
+  if (!f.open(QFile::WriteOnly | QFile::Text)) {
+    QMessageBox::critical(nullptr, tr("Save Failed"), tr("cannot open file"));
+    return;
+  }
+
+  QTextStream fout(&f);
+
+  QString tmp;
+  if (!_reflector.encode(tmp))
+    goto ENCODING_FAILED;
+  fout << _rotorSlots.size() << '\t' << tmp << endl;
+
+  for (auto i : _rotorSlots) {
+    if (!i->get_rotor().encode(tmp))
+      goto ENCODING_FAILED;
+    fout << i->get_offset() << '\t' << tmp << endl;
+  }
+
+  if (fout.status() != QTextStream::Ok)
+    goto ENCODING_FAILED;
+
+  f.close();
+  QMessageBox::information(this, tr("Success"), tr("File Saved"));
+  return;
+
+ENCODING_FAILED:
+  QMessageBox::critical(
+    nullptr, tr("Save Failed"), tr("fail to encode machine"));
 }

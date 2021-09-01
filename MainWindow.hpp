@@ -1,27 +1,32 @@
 #pragma once
 
 #include <EnigmaMachine.hpp>
-#include <QDialog>
+#include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainDialog; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
-class MainDialog : public QDialog
+class MainWindow : public QMainWindow
 {
   Q_OBJECT
 
 private:
-  Ui::MainDialog* ui;
+  Ui::MainWindow* ui;
   EnigmaMachine _em;
 
 public:
-  MainDialog(QWidget* parent = nullptr);
-  ~MainDialog() override;
+  MainWindow(QWidget* parent = nullptr);
+  ~MainWindow() override;
 
 protected:
   virtual void keyPressEvent(QKeyEvent* e) override;
 
 private slots:
   void when_em_charEncoded(QChar plain, QChar cipher);
+
+  void on_copyInButton_clicked();
+  void on_copyOutButton_clicked();
 };

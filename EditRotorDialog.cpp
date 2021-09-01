@@ -2,10 +2,14 @@
 #include "RotorSlot.hpp"
 #include "ui_EditRotorDialog.h"
 
+#include <QClipboard>
 #include <QDebug>
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QRandomGenerator>
+#include <QToolTip>
+#include <algorithm>
 
 EditRotorDialog::EditRotorDialog(const Rotor& r, QWidget* parent)
   : QDialog(parent)
@@ -40,9 +44,9 @@ EditRotorDialog::EditRotorDialog(const Rotor& r, QWidget* parent)
             _leftSelected = 0xff;
           } break;
         }
-        update();
+        sync_m2v();
       },
-      this); // 这就叫 Modern ！
+      this);
     left->setText(ch);
     left->setLayoutDirection(Qt::LayoutDirection::RightToLeft);
     ui->leftLayout->addWidget(left);
@@ -52,17 +56,28 @@ EditRotorDialog::EditRotorDialog(const Rotor& r, QWidget* parent)
       [this, i](ControlledRadioButton& self) {
         if (_leftSelected == 0xff)
           return;
+
+        if (self.isChecked()) {
+          QToolTip::showText(self.mapToGlobal(self.rect().bottomLeft()),
+                             "⛔ slot has been used",
+                             &self,
+                             self.rect());
+          return;
+        }
+
         _rotor[_leftSelected] = i;
         _leftSelected = 0xff;
-        self.setChecked(true);
+        sync_m2v();
       },
       this);
     right->setText(ch);
-    //    right->setCheckable(false);
     right->setAutoExclusive(false);
     ui->rightLayout->addWidget(right);
     _rights[i] = right;
   }
+
+  // 同步 model 到 view
+  sync_m2v();
 }
 
 EditRotorDialog::~EditRotorDialog()
@@ -71,22 +86,56 @@ EditRotorDialog::~EditRotorDialog()
 }
 
 void
+EditRotorDialog::set_rotor(const Rotor& rotor)
+{
+  _rotor = rotor;
+  sync_m2v();
+}
+
+void
+EditRotorDialog::sync_m2v()
+{
+  for (uint8_t i = 0; i < kRotorMod; ++i) {
+    _rights[i]->setChecked(false);
+  }
+
+  for (uint8_t i = 0; i < kRotorMod; ++i) {
+    auto j = _rotor[i];
+    if (j < kRotorMod) {
+      _lefts[i]->setChecked(true);
+      _rights[j]->setChecked(true);
+    } else {
+      _lefts[i]->setChecked(false);
+    }
+  }
+
+  if (_leftSelected != 0xff)
+    _lefts[_leftSelected]->setCheckState(Qt::CheckState::PartiallyChecked);
+
+  update();
+}
+
+void
 EditRotorDialog::paintEvent(QPaintEvent*)
 {
   QPainter pt(this);
 
-  for (uint8_t i = 0; i < kRotorMod; ++i) {
-    //    _rights[i]->setChecked(false);
+  if (_leftSelected != 0xff) {
+    auto& left = *_lefts[_leftSelected];
+    auto start = left.pos();
+    start.rx() += left.width();
+    start.ry() += left.height() >> 1;
+
+    // 得到的是相对父容器的坐标，需要转化为this的相对坐标
+    start = left.parentWidget()->mapTo(this, start);
+    pt.drawLine(start, _mousePos);
   }
 
   for (uint8_t i = 0; i < kRotorMod; ++i) {
-    auto& left = *_lefts[i];
     auto j = _rotor[i];
     if (j < kRotorMod) {
+      auto& left = *_lefts[i];
       auto& right = *_rights[j];
-
-      //      left.setChecked(true);
-      //      right.setChecked(true);
 
       auto start = left.pos();
       start.rx() += left.width();
@@ -98,21 +147,7 @@ EditRotorDialog::paintEvent(QPaintEvent*)
       stop = right.parentWidget()->mapTo(this, stop);
 
       pt.drawLine(start, stop);
-
-    } else {
-      //      left.setChecked(false);
     }
-  }
-
-  if (_leftSelected != 0xff) {
-    auto& left = *_lefts[_leftSelected];
-    auto start = left.pos();
-    start.rx() += left.width();
-    start.ry() += left.height() >> 1;
-
-    // 得到的是相对父容器的坐标，需要转化为this的相对坐标
-    start = left.parentWidget()->mapTo(this, start);
-    pt.drawLine(start, _mousePos);
   }
 }
 
@@ -142,4 +177,71 @@ EditRotorDialog::ControlledRadioButton::mouseReleaseEvent(QMouseEvent* event)
   // 是在父类的行为之后追加一些行为，所以把 _onClick 的调用写在后面。
   QRadioButton::mouseReleaseEvent(event);
   _onClick(*this);
+}
+
+void
+EditRotorDialog::on_randomButton_clicked()
+{
+  auto re = QRandomGenerator::securelySeeded();
+
+  for (uint8_t i = 0; i < kRotorMod; ++i)
+    _rotor[i] = i;
+  std::shuffle(_rotor.begin(), _rotor.end(), re);
+  sync_m2v();
+}
+
+void
+EditRotorDialog::on_clearButton_clicked()
+{
+  for (uint8_t i = 0; i < kRotorMod; ++i)
+    _rotor[i] = 0xff;
+  sync_m2v();
+}
+
+void
+EditRotorDialog::on_copyButton_clicked()
+{
+  auto clipboard = QApplication::clipboard();
+
+  QString s;
+  if (!_rotor.encode(s)) {
+    QToolTip::showText(
+      ui->copyButton->mapToGlobal(ui->copyButton->rect().bottomLeft()),
+      tr("⚠ fail to encode rotor"),
+      ui->copyButton);
+    return;
+  }
+
+  clipboard->setText(s);
+  QToolTip::showText(
+    ui->copyButton->mapToGlobal(ui->copyButton->rect().bottomLeft()),
+    tr("🆗 code copied to clipboard"),
+    ui->copyButton);
+}
+
+void
+EditRotorDialog::on_pasteButton_clicked()
+{
+  auto clipboard = QApplication::clipboard();
+
+  if (!_rotor.decode(clipboard->text())) {
+    QToolTip::showText(
+      ui->pasteButton->mapToGlobal(ui->pasteButton->rect().bottomLeft()),
+      tr("⚠ fail to decode rotor"),
+      ui->copyButton);
+    return;
+  }
+
+  QToolTip::showText(
+    ui->copyButton->mapToGlobal(ui->copyButton->rect().bottomLeft()),
+    tr("🆗 rotor loaded"),
+    ui->copyButton);
+  sync_m2v();
+}
+
+void
+EditRotorDialog::on_buttonBox_clicked(QAbstractButton* button)
+{
+  if (button == ui->buttonBox->button(QDialogButtonBox::Apply))
+    emit applied();
 }

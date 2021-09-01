@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>249</height>
+    <height>433</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,14 +58,40 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="clearButton">
+       <property name="toolTip">
+        <string>clear all mapping</string>
+       </property>
+       <property name="text">
+        <string>CLEAR</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="randomButton">
+       <property name="toolTip">
+        <string>generate random rotor</string>
+       </property>
+       <property name="text">
+        <string>RANDOM</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pasteButton">
+       <property name="toolTip">
+        <string>decode rotor from clipboard</string>
+       </property>
        <property name="text">
         <string>PASTE</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="copyButton">
+       <property name="toolTip">
+        <string>copy the coding of rotor to clipboard</string>
+       </property>
        <property name="text">
         <string>COPY</string>
        </property>
@@ -105,5 +131,38 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>EditRotorDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>341</x>
+     <y>371</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>216</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>EditRotorDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>341</x>
+     <y>371</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>216</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

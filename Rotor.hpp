@@ -36,4 +36,19 @@ public:
    * @abstract 构造 r 为与自己对称的转子
    */
   void reverse_to(Rotor& r);
+
+  /**
+   * @brief encode
+   * @param s 输出字符串
+   * @return 成功返回 true 失败返回 false
+   */
+  bool encode(QString& s) const;
+
+  /**
+   * @brief decode
+   * @param s
+   * @return 成功返回 true，失败返回 false
+   * @abstract 如果失败，原 Rotor 对象不会被修改（安全代码设计）
+   */
+  bool decode(const QString& s);
 };

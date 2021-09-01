@@ -21,6 +21,9 @@ public:
   ~RotorSlot();
 
 private:
+  Ui::RotorSlot* ui;
+  EditRotorDialog _editRotorDialog;
+
   uint8_t _offset;
   Rotor _forwardRotor;
   Rotor _reverseRotor;
@@ -45,10 +48,6 @@ public: // 功能性方法
     set_offset(_offset + 1);
     return _offset == 0;
   }
-
-private:
-  Ui::RotorSlot* ui;
-  EditRotorDialog _editRotorDialog;
 
 private slots:
   void on_editButton_clicked();
