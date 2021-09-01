@@ -110,6 +110,7 @@ EnigmaMachine::on_editReflectorButton_clicked()
 {
   EditRotorDialog dlg;
   dlg.setWindowTitle("REFLECTOR");
+  dlg.set_rotor(_reflector);
   if (!dlg.exec())
     return;
   _reflector = dlg.get_rotor();
@@ -120,12 +121,8 @@ EnigmaMachine::on_trashButton_clicked()
 {
   // TODO 拖动删除
   if (!_rotorSlots.isEmpty()) {
-    ui->rotorSetLayout->removeWidget(_rotorSeps[0]);
-    ui->rotorSetLayout->removeWidget(_rotorSlots[0]);
-
-    delete _rotorSeps[0];
-    delete _rotorSlots[0];
-
+    delete _rotorSeps.front();
+    delete _rotorSlots.front();
     _rotorSlots.pop_front();
     _rotorSeps.pop_front();
   }
@@ -148,7 +145,6 @@ EnigmaMachine::on_loadButton_clicked()
   }
 
   QTextStream fin(&f);
-
   int rotorNumber = 0;
   fin >> rotorNumber;
 
@@ -160,6 +156,7 @@ EnigmaMachine::on_loadButton_clicked()
   fin >> tmp;
   if (!reflector.decode(tmp))
     goto DECODING_FAILED;
+
   for (int i = 0; i < rotorNumber; ++i) {
     fin >> offsets[i];
     fin >> tmp;
@@ -177,10 +174,10 @@ EnigmaMachine::on_loadButton_clicked()
     ui->rotorSetLayout->insertWidget(0, _rotorSeps.front());
   }
   for (int i = rotorNumber; i < _rotorSlots.size(); ++i) {
-    ui->rotorSetLayout->removeWidget(_rotorSeps.front());
-    ui->rotorSetLayout->removeWidget(_rotorSlots.front());
     delete _rotorSeps.front();
     delete _rotorSlots.front();
+    _rotorSeps.pop_front();
+    _rotorSlots.pop_front();
   }
 
   // 设置机器状态
