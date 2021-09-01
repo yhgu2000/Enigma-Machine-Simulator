@@ -1,3 +1,4 @@
+#include "EditRotorDialog.hpp"
 #include "MainDialog.hpp"
 #include "RotorSlot.hpp"
 
@@ -7,8 +8,11 @@ int
 main(int argc, char* argv[])
 {
   QApplication a(argc, argv);
-  MainDialog w;
-  w.show();
+  //  MainDialog w;
+  //  w.show();
+
+  EditRotorDialog d;
+  d.show();
 
   return a.exec();
 }

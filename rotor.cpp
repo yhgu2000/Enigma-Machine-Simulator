@@ -1,11 +1,13 @@
 #include "Rotor.hpp"
 
-const rotor_t Rotor::kDefault = []() {
+const rotor_t Rotor::kDefault_t = []() {
   rotor_t rot;
   for (uint8_t i = 0; i < kRotorMod; ++i)
     rot[i] = i;
   return rot;
 }();
+
+const Rotor& Rotor::kDefault = reinterpret_cast<const Rotor&>(kDefault_t);
 
 QString
 Rotor::hash()

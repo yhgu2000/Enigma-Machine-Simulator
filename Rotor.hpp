@@ -16,12 +16,16 @@ using rotor_t = std::array<uint8_t, kRotorMod>;
 
 class Rotor : public rotor_t
 {
-  static const rotor_t kDefault;
+  static const rotor_t kDefault_t;
+
+public:
+  static const Rotor& kDefault;
 
 public:
   Rotor()
     : rotor_t(kDefault)
   {}
+  Rotor(const Rotor&) = default;
 
 public:
   QString hash();
