@@ -18,50 +18,47 @@ class EditRotorDialog : public QDialog
   Q_OBJECT
 
 private:
-  // 把 QCheckBox 改造为类似 React 里面的无状态完全受控组件
+  // C++ 的类千万别声明在 .cpp 里，因为类不能是 static 的！
+  // 用 private 类声明实现命名空间的保护！
+
+  // 把 QCheckBox 改造为类似 React 里面的无状态受控组件
+  // 区别在于，没有一个框架实现自动 DIFF，需要手动编写更新代码
+  //
+  // 其实受不受控说多了都是是狗屁，本质上就是，我希望把这个组件“按下就选中”
+  // 的逻辑剥离出来，实现按下事件交给高层处理。
+  //
+  // 实践证明，完全受控、不完全受控、完全不受控各有各适用的场景，
+  // 使用核心还是弄清楚：组件上哪些逻辑是自己能处理的；哪些是应该留给高层处理的；
+  // 哪些是比较琐碎的、应该让低级组件自行处理的！
   class ControlledCheckBox : public QCheckBox
   {
   public:
-    using GetCheckState = std::function<Qt::CheckState()>;
-    using OnClick = std::function<void(Qt::CheckState)>;
+    using OnClick = std::function<void(ControlledCheckBox&)>;
 
   private:
-    GetCheckState _getCheckState;
     OnClick _onClick;
 
   public:
-    explicit ControlledCheckBox(GetCheckState getCheckState,
-                                OnClick onClick,
-                                QWidget* parent = nullptr)
+    explicit ControlledCheckBox(OnClick onClick, QWidget* parent = nullptr)
       : QCheckBox(parent)
-      , _getCheckState(getCheckState)
       , _onClick(onClick)
     {} // 另一种方式是用 Qt 信号，不过效率应该略低一些
 
   protected:
-    virtual void nextCheckState() override {}
-    virtual void paintEvent(QPaintEvent* event) override;
-    virtual void mousePressEvent(QMouseEvent* event) override;
+    virtual void nextCheckState() override {} // 设为空以去除逻辑
+    virtual void mouseReleaseEvent(QMouseEvent* event) override;
   };
-  // C++ 的类千万别声明在 .cpp 里，因为类不能是 static 的！
-  // 用 private 类声明实现命名空间的保护！
 
-  // 尽管组件和上面的类一样，不会私自对用户的操作进行响应，
-  // 但和区别在于，组件自己持有状态，即，状态是分散的。
-  // 或许这就叫“不完全受控”吧！
-  // 实践证明，完全受控、不完全受控、完全不受控各有各适用的场景，
-  // 使用核心还是弄清楚：组件上哪些逻辑是自己能处理的；哪些是应该留给高层处理的；
-  // 哪些是比较琐碎的、应该让低级组件自行处理的！
-  class ControllableRadioButton : public QRadioButton
+  class ControlledRadioButton : public QRadioButton
   {
   public:
-    using OnClick = std::function<void(ControllableRadioButton&)>;
+    using OnClick = std::function<void(ControlledRadioButton&)>;
 
   private:
     OnClick _onClick;
 
   public:
-    explicit ControllableRadioButton(OnClick onClick, QWidget* parent)
+    explicit ControlledRadioButton(OnClick onClick, QWidget* parent)
       : QRadioButton(parent)
       , _onClick(onClick)
     {}

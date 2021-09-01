@@ -26,15 +26,8 @@ EditRotorDialog::EditRotorDialog(const Rotor& r, QWidget* parent)
     QChar ch('A' + i);
 
     auto left = new ControlledCheckBox(
-      [this, i]() {
-        if (_leftSelected == i)
-          return CS::PartiallyChecked;
-        if (_rotor[i] < kRotorMod)
-          return CS::Checked;
-        return CS::Unchecked;
-      },
-      [this, i](CS s) {
-        switch (s) {
+      [this, i](ControlledCheckBox& self) {
+        switch (self.checkState()) {
           case CS::Checked: {
             _rotor[i] = 0xff;
           } break;
@@ -55,8 +48,8 @@ EditRotorDialog::EditRotorDialog(const Rotor& r, QWidget* parent)
     ui->leftLayout->addWidget(left);
     _lefts[i] = left;
 
-    auto right = new ControllableRadioButton(
-      [this, i](ControllableRadioButton& self) {
+    auto right = new ControlledRadioButton(
+      [this, i](ControlledRadioButton& self) {
         if (_leftSelected == 0xff)
           return;
         _rotor[_leftSelected] = i;
@@ -78,41 +71,49 @@ EditRotorDialog::~EditRotorDialog()
 }
 
 void
-EditRotorDialog::paintEvent(QPaintEvent* event)
+EditRotorDialog::paintEvent(QPaintEvent*)
 {
-  //  QPainter pt(this);
+  QPainter pt(this);
 
-  //  if (_leftSelected != 0xff) {
-  //    auto& left = *_lefts[_leftSelected];
-  //    auto start = left.pos();
-  //    start.rx() += left.width();
-  //    start.ry() += left.height() >> 1;
+  for (uint8_t i = 0; i < kRotorMod; ++i) {
+    //    _rights[i]->setChecked(false);
+  }
 
-  //    // 得到的是相对父容器的坐标，需要转化为this的相对坐标
-  //    start = left.parentWidget()->mapTo(this, start);
-  //    pt.drawLine(start, _mousePos);
-  //  }
+  for (uint8_t i = 0; i < kRotorMod; ++i) {
+    auto& left = *_lefts[i];
+    auto j = _rotor[i];
+    if (j < kRotorMod) {
+      auto& right = *_rights[j];
 
-  //  for (uint8_t i = 0; i < kRotorMod; ++i) {
-  //    auto j = _rotor[i];
-  //    if (j < kRotorMod) {
-  //      auto& left = *_lefts[i];
-  //      auto& right = *_rights[j];
+      //      left.setChecked(true);
+      //      right.setChecked(true);
 
-  //      auto start = left.pos();
-  //      start.rx() += left.width();
-  //      start.ry() += left.height() >> 1;
-  //      start = left.parentWidget()->mapTo(this, start);
+      auto start = left.pos();
+      start.rx() += left.width();
+      start.ry() += left.height() >> 1;
+      start = left.parentWidget()->mapTo(this, start);
 
-  //      auto stop = right.pos();
-  //      stop.ry() += right.height() >> 1;
-  //      stop = right.parentWidget()->mapTo(this, stop);
+      auto stop = right.pos();
+      stop.ry() += right.height() >> 1;
+      stop = right.parentWidget()->mapTo(this, stop);
 
-  //      pt.drawLine(start, stop);
-  //    }
-  //  }
+      pt.drawLine(start, stop);
 
-  qDebug() << "-1";
+    } else {
+      //      left.setChecked(false);
+    }
+  }
+
+  if (_leftSelected != 0xff) {
+    auto& left = *_lefts[_leftSelected];
+    auto start = left.pos();
+    start.rx() += left.width();
+    start.ry() += left.height() >> 1;
+
+    // 得到的是相对父容器的坐标，需要转化为this的相对坐标
+    start = left.parentWidget()->mapTo(this, start);
+    pt.drawLine(start, _mousePos);
+  }
 }
 
 void
@@ -121,33 +122,24 @@ EditRotorDialog::mouseMoveEvent(QMouseEvent* event)
   // 记录鼠标位置并通知窗口更新
   _mousePos = event->pos();
   update();
-
-  qDebug() << "0";
 }
 
 void
-EditRotorDialog::ControlledCheckBox::paintEvent(QPaintEvent* event)
+EditRotorDialog::ControlledCheckBox::mouseReleaseEvent(QMouseEvent* event)
 {
-  // 下面两行导致 paintEvent 被无限循环调用，耗尽CPU资源！
-  setCheckState(_getCheckState());
-  QCheckBox::paintEvent(event);
-
-  qDebug() << "1";
+  QCheckBox::mouseReleaseEvent(event);
+  _onClick(*this);
 }
 
 void
-EditRotorDialog::ControlledCheckBox::mousePressEvent(QMouseEvent* event)
+EditRotorDialog::ControlledRadioButton::mouseReleaseEvent(QMouseEvent* event)
 {
-  _onClick(checkState());
-
-  qDebug() << "2";
-}
-
-void
-EditRotorDialog::ControllableRadioButton::mouseReleaseEvent(QMouseEvent* event)
-{
+  // 父函数放在前面，可能会导致它先行修改了组件的状态；
+  // 放在后面，又担心它可能会覆盖掉 _onClick 的修改。
+  // 总之，没有万全方法呀！
+  //
+  // 通常写在前面要好一点，因为 _onClick 通常是基于父类的行为来编写的，
+  // 是在父类的行为之后追加一些行为，所以把 _onClick 的调用写在后面。
   QRadioButton::mouseReleaseEvent(event);
   _onClick(*this);
-
-  qDebug() << "3";
 }
