@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget* parent)
   ui->mainDialogLayout->addWidget(&_em);
   connect(
     &_em, &EnigmaMachine::charEncoded, this, &MainWindow::when_em_charEncoded);
+  connect(
+    &_em, &EnigmaMachine::backspace, this, &MainWindow::when_em_backspace);
 }
 
 MainWindow::~MainWindow()
@@ -33,6 +35,20 @@ MainWindow::when_em_charEncoded(QChar plain, QChar cipher)
 {
   ui->inputs->setText(ui->inputs->text() + plain);
   ui->outputs->setText(ui->outputs->text() + cipher);
+}
+
+void
+MainWindow::when_em_backspace()
+{
+  auto s = ui->inputs->text();
+  if (s.isEmpty())
+    return;
+
+  s.remove(s.size() - 1, 1);
+  ui->inputs->setText(s);
+  s = ui->outputs->text();
+  s.remove(s.size() - 1, 1);
+  ui->outputs->setText(s);
 }
 
 void

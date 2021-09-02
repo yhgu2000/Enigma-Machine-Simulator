@@ -8,10 +8,12 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QToolTip>
+#include <QtMultimedia/QSound>
+#include <iostream>
 
-EnigmaMachine::EnigmaMachine(QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::EnigmaMachine)
+EnigmaMachine::EnigmaMachine(QWidget* parent)
+  : QWidget(parent)
+  , ui(new Ui::EnigmaMachine)
 {
   ui->setupUi(this);
 }
@@ -30,7 +32,20 @@ EnigmaMachine::setFocus()
 void
 EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
 {
+  static QSound sKeySound(":/key.wav");
+  // 从用户按键到 textEdited 经过太多环节，最好移到组件的 keyPressedEvent 里面去
+  sKeySound.play();
+
   if (arg1.size() == 0) {
+    ui->machineIn->setText(" ");
+
+    // 后退一步“”
+    for (auto i : _rotorSlots) {
+      if (!i->step_back())
+        break;
+    }
+
+    emit backspace();
     return;
   }
 
@@ -211,12 +226,12 @@ EnigmaMachine::on_saveButton_clicked()
   QString tmp;
   if (!_reflector.encode(tmp))
     goto ENCODING_FAILED;
-  fout << _rotorSlots.size() << '\t' << tmp << endl;
+  fout << _rotorSlots.size() << '\t' << tmp << Qt::endl;
 
   for (auto i : _rotorSlots) {
     if (!i->get_rotor().encode(tmp))
       goto ENCODING_FAILED;
-    fout << i->get_offset() << '\t' << tmp << endl;
+    fout << i->get_offset() << '\t' << tmp << Qt::endl;
   }
 
   if (fout.status() != QTextStream::Ok)

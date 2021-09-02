@@ -26,6 +26,7 @@ protected:
 
 private slots:
   void when_em_charEncoded(QChar plain, QChar cipher);
+  void when_em_backspace();
 
   void on_copyInButton_clicked();
   void on_copyOutButton_clicked();

@@ -1,6 +1,7 @@
 #include "InfoBubble.hpp"
 #include <QHBoxLayout>
 #include <QPainter>
+#include <QPainterPath>
 
 InfoBubble::InfoBubble(QWidget* parent)
   : QWidget(parent)

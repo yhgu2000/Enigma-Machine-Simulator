@@ -17,7 +17,7 @@ RotorSeparator::~RotorSeparator()
 QChar
 RotorSeparator::translate_position(uint8_t pos)
 {
-  return 'A' + pos % kRotorMod;
+  return QChar('A' + pos % kRotorMod);
 }
 
 void

@@ -35,8 +35,8 @@ Rotor::encode(QString& s) const
 {
   s.resize(kRotorMod << 1);
   for (uint8_t i = 0; i < kRotorMod; ++i) {
-    s[i << 1] = 'A' + ((*this)[i] >> 4);
-    s[i << 1 | 1] = 'A' + ((*this)[i] & 0x0f);
+    s[i << 1] = QChar('A' + ((*this)[i] >> 4));
+    s[i << 1 | 1] = QChar('A' + ((*this)[i] & 0x0f));
   }
   return true;
 }

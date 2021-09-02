@@ -16,6 +16,7 @@ class EnigmaMachine : public QWidget
 
 signals:
   void charEncoded(QChar plain, QChar cipher);
+  void backspace();
 
 private:
   Ui::EnigmaMachine* ui;
@@ -26,7 +27,7 @@ private:
 
 public:
   explicit EnigmaMachine(QWidget *parent = nullptr);
-  ~EnigmaMachine();
+  ~EnigmaMachine() override;
 
 public:
   void setFocus();

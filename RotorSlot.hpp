@@ -40,13 +40,23 @@ public: // 功能性方法
   uint8_t reverse_map(uint8_t pos);
 
   /**
-   * @brief step
+   * @brief step 转子前进一步
    * @return 有进位返回 true，否则返回 false
    */
   bool step()
   {
     set_offset(_offset + 1);
     return _offset == 0;
+  }
+
+  /**
+   * @brief step_back 转子后退一步
+   * @return 有借位返回 true 否则返回 false
+   */
+  bool step_back()
+  {
+    set_offset(_offset - 1);
+    return _offset == kRotorMod - 1;
   }
 
 private slots:
