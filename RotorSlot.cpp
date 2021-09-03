@@ -50,17 +50,24 @@ RotorSlot::set_rotor(const Rotor& rot)
   ui->label->setText(_forwardRotor.hash());
 }
 
+void
+RotorSlot::retranslate_ui()
+{
+  ui->retranslateUi(this);
+  _editRotorDialog.retranslate_ui();
+}
+
 uint8_t
 RotorSlot::forward_map(uint8_t pos)
 {
-  auto t = _forwardRotor[(pos + _offset) % kRotorMod] - _offset;
+  uint8_t t = _forwardRotor[(pos + _offset) % kRotorMod] - _offset;
   return (t + kRotorMod) % kRotorMod;
 }
 
 uint8_t
 RotorSlot::reverse_map(uint8_t pos)
 {
-  auto t = _reverseRotor[(pos + _offset) % kRotorMod] - _offset;
+  uint8_t t = _reverseRotor[(pos + _offset) % kRotorMod] - _offset;
   return (t + kRotorMod) % kRotorMod;
 }
 

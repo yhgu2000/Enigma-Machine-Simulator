@@ -59,4 +59,4 @@ RESOURCES += \
 
 TRANSLATIONS += \
     en.ts \
-    zh_Hans.ts
+    zh_CN.ts

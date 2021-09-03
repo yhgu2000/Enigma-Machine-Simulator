@@ -18,7 +18,7 @@ signals:
 
 public:
   explicit RotorSlot(QWidget* parent = nullptr);
-  ~RotorSlot();
+  ~RotorSlot() override;
 
 private:
   Ui::RotorSlot* ui;
@@ -34,6 +34,9 @@ public: // 属性方法
 
   const Rotor& get_rotor() { return _forwardRotor; }
   void set_rotor(const Rotor& rot);
+
+  // 相当于一种默认参数使用全局变量的属性方法
+  void retranslate_ui();
 
 public: // 功能性方法
   uint8_t forward_map(uint8_t pos);

@@ -59,7 +59,7 @@ EditRotorDialog::EditRotorDialog(const Rotor& r, QWidget* parent)
 
         if (self.isChecked()) {
           QToolTip::showText(self.mapToGlobal(self.rect().bottomLeft()),
-                             "⛔ slot has been used",
+                             tr("⛔ slot has been used"),
                              &self,
                              self.rect());
           return;
@@ -90,6 +90,12 @@ EditRotorDialog::set_rotor(const Rotor& rotor)
 {
   _rotor = rotor;
   sync_m2v();
+}
+
+void
+EditRotorDialog::retranslate_ui()
+{
+  ui->retranslateUi(this);
 }
 
 void

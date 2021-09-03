@@ -30,7 +30,8 @@ public:
   ~EnigmaMachine() override;
 
 public:
-  void setFocus();
+  void set_focus();
+  void retranslate_ui();
 
 private slots:
   void on_machineIn_textEdited(const QString& arg1);

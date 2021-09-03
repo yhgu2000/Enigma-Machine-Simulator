@@ -24,9 +24,17 @@ EnigmaMachine::~EnigmaMachine()
 }
 
 void
-EnigmaMachine::setFocus()
+EnigmaMachine::set_focus()
 {
   ui->machineIn->setFocus();
+}
+
+void
+EnigmaMachine::retranslate_ui()
+{
+  ui->retranslateUi(this);
+  for (auto i : _rotorSlots)
+    i->retranslate_ui();
 }
 
 void
@@ -124,7 +132,7 @@ void
 EnigmaMachine::on_editReflectorButton_clicked()
 {
   EditRotorDialog dlg;
-  dlg.setWindowTitle("REFLECTOR");
+  dlg.setWindowTitle(tr("REFLECTOR"));
   dlg.set_rotor(_reflector);
   if (!dlg.exec())
     return;

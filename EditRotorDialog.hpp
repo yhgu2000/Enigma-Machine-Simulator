@@ -86,6 +86,8 @@ public: // 属性方法
   const Rotor& get_rotor() { return _rotor; }
   void set_rotor(const Rotor& rotor);
 
+  void retranslate_ui();
+
 private:
   std::array<QCheckBox*, kRotorMod> _lefts;
   std::array<QRadioButton*, kRotorMod> _rights;
