@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 #include <QClipboard>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QDir>
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -13,6 +14,7 @@ MainWindow::MainWindow(QWidget* parent)
   , ui(new Ui::MainWindow)
   , _em(this)
   , _tsr(this)
+  , _about(this)
 {
   // 国际化
   QLocale defaultLocale;
@@ -51,6 +53,19 @@ MainWindow::MainWindow(QWidget* parent)
     &_em, &EnigmaMachine::charEncoded, this, &MainWindow::when_em_charEncoded);
   connect(
     &_em, &EnigmaMachine::backspace, this, &MainWindow::when_em_backspace);
+
+  // 菜单栏
+  connect(ui->actionWhatsEnigma, &QAction::triggered, []() {
+    QDesktopServices::openUrl(
+      tr("https://en.wikipedia.org/wiki/Enigma_machine"));
+  });
+  connect(ui->actionAbout, &QAction::triggered, [this]() { _about.show(); });
+  connect(
+    ui->actionTutorial, &QAction::triggered, [this]() { _tutorial.show(); });
+  connect(ui->actionReset,
+          &QAction::triggered,
+          this,
+          &MainWindow::when_actionReset_triggered);
 }
 
 MainWindow::~MainWindow()
@@ -128,6 +143,16 @@ MainWindow::when_langGroup_triggered(QAction* action)
     return;
   }
   ui->statusbar->showMessage(tr("change language to %1").arg(filename));
+}
+
+void
+MainWindow::when_actionReset_triggered()
+{
+  for (int i = ui->inputs->text().size(); --i != -1;) {
+    _em.step_back();
+  }
+  ui->inputs->clear();
+  ui->outputs->clear();
 }
 
 void

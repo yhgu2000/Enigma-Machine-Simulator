@@ -24,6 +24,24 @@ EnigmaMachine::~EnigmaMachine()
 }
 
 void
+EnigmaMachine::step()
+{
+  for (auto i : _rotorSlots) {
+    if (!i->step())
+      break;
+  }
+}
+
+void
+EnigmaMachine::step_back()
+{
+  for (auto i : _rotorSlots) {
+    if (!i->step_back())
+      break;
+  }
+}
+
+void
 EnigmaMachine::set_focus()
 {
   ui->machineIn->setFocus();
@@ -47,11 +65,8 @@ EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
   if (arg1.size() == 0) {
     ui->machineIn->setText(" ");
 
-    // 后退一步“”
-    for (auto i : _rotorSlots) {
-      if (!i->step_back())
-        break;
-    }
+    // 后退一步
+    step_back();
 
     emit backspace();
     return;
@@ -68,10 +83,7 @@ EnigmaMachine::on_machineIn_textEdited(const QString& arg1)
   ui->machineIn->setText(plain);
 
   // 推进一步
-  for (auto i : _rotorSlots) {
-    if (!i->step())
-      break;
-  }
+  step();
 
   bool isLower = plain.isLower();
   uint8_t x;

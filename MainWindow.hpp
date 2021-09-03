@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AboutDialog.hpp"
+#include "Tutorial.hpp"
 #include <EnigmaMachine.hpp>
 #include <QMainWindow>
 #include <QTranslator>
@@ -20,6 +22,8 @@ private:
   Ui::MainWindow* ui;
   EnigmaMachine _em;
   QTranslator _tsr;
+  AboutDialog _about;
+  Tutorial _tutorial;
 
 public:
   MainWindow(QWidget* parent = nullptr);
@@ -36,6 +40,7 @@ private slots:
   void when_em_charEncoded(QChar plain, QChar cipher);
   void when_em_backspace();
   void when_langGroup_triggered(QAction* action);
+  void when_actionReset_triggered();
 
   void on_copyInButton_clicked();
   void on_copyOutButton_clicked();

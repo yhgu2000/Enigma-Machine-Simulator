@@ -30,6 +30,10 @@ public:
   ~EnigmaMachine() override;
 
 public:
+  void step();
+  void step_back();
+
+public:
   void set_focus();
   void retranslate_ui();
 

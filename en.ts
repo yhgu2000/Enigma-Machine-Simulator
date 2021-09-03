@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="AboutDialog.ui" line="14"/>
+        <source>About</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>EditRotorDialog</name>
     <message>
         <location filename="EditRotorDialog.ui" line="17"/>
@@ -89,7 +97,7 @@
     </message>
     <message>
         <location filename="EnigmaMachine.ui" line="262"/>
-        <location filename="EnigmaMachine.cpp" line="135"/>
+        <location filename="EnigmaMachine.cpp" line="147"/>
         <source>REFLECTOR</source>
         <translation></translation>
     </message>
@@ -134,67 +142,67 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="65"/>
+        <location filename="EnigmaMachine.cpp" line="80"/>
         <source>⚠ enigma only accepts letters</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="158"/>
+        <location filename="EnigmaMachine.cpp" line="170"/>
         <source>Import from File ...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="160"/>
-        <location filename="EnigmaMachine.cpp" line="222"/>
+        <location filename="EnigmaMachine.cpp" line="172"/>
+        <location filename="EnigmaMachine.cpp" line="234"/>
         <source>Enigma Machine Status (*.ems)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="166"/>
-        <location filename="EnigmaMachine.cpp" line="215"/>
+        <location filename="EnigmaMachine.cpp" line="178"/>
+        <location filename="EnigmaMachine.cpp" line="227"/>
         <source>Load Failed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="166"/>
-        <location filename="EnigmaMachine.cpp" line="228"/>
+        <location filename="EnigmaMachine.cpp" line="178"/>
+        <location filename="EnigmaMachine.cpp" line="240"/>
         <source>cannot open file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="211"/>
-        <location filename="EnigmaMachine.cpp" line="249"/>
+        <location filename="EnigmaMachine.cpp" line="223"/>
+        <location filename="EnigmaMachine.cpp" line="261"/>
         <source>Success</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="211"/>
+        <location filename="EnigmaMachine.cpp" line="223"/>
         <source>macine status loaded</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="215"/>
+        <location filename="EnigmaMachine.cpp" line="227"/>
         <source>fail to dncode file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="222"/>
+        <location filename="EnigmaMachine.cpp" line="234"/>
         <source>Export to File ...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="228"/>
-        <location filename="EnigmaMachine.cpp" line="254"/>
+        <location filename="EnigmaMachine.cpp" line="240"/>
+        <location filename="EnigmaMachine.cpp" line="266"/>
         <source>Save Failed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="249"/>
+        <location filename="EnigmaMachine.cpp" line="261"/>
         <source>File Saved</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="254"/>
+        <location filename="EnigmaMachine.cpp" line="266"/>
         <source>fail to encode machine</source>
         <translation></translation>
     </message>
@@ -233,54 +241,59 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="127"/>
+        <location filename="MainWindow.ui" line="126"/>
         <source>Language</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="137"/>
+        <location filename="MainWindow.ui" line="136"/>
         <source>Reset Machine</source>
         <oldsource>Reset</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="142"/>
+        <location filename="MainWindow.ui" line="141"/>
         <source>Paste Input</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="147"/>
+        <location filename="MainWindow.ui" line="146"/>
         <source>Tutorial...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="152"/>
+        <location filename="MainWindow.ui" line="151"/>
         <source>What&apos;s Enigma...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="157"/>
+        <location filename="MainWindow.ui" line="156"/>
         <source>About...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="90"/>
+        <location filename="MainWindow.cpp" line="60"/>
+        <source>https://en.wikipedia.org/wiki/Enigma_machine</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="105"/>
         <source>failed to load language file %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="127"/>
+        <location filename="MainWindow.cpp" line="142"/>
         <source>cannot find language file for %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="130"/>
+        <location filename="MainWindow.cpp" line="145"/>
         <source>change language to %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="140"/>
-        <location filename="MainWindow.cpp" line="150"/>
+        <location filename="MainWindow.cpp" line="165"/>
+        <location filename="MainWindow.cpp" line="175"/>
         <source>outputs copied to clipboard</source>
         <translation></translation>
     </message>
@@ -313,6 +326,14 @@
     <message>
         <location filename="RotorSlot.ui" line="107"/>
         <source>🖐️</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Tutorial</name>
+    <message>
+        <location filename="Tutorial.ui" line="14"/>
+        <source>Tutorial</source>
         <translation></translation>
     </message>
 </context>

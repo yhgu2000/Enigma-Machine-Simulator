@@ -1,0 +1,11 @@
+The core components of an Enigma Machine are rotor set and reflector. This software is made to simulate how these two parts work.
+
+Use the ➕ button on the panel to add rotor to the set, and 🗑 button to remove the first rotor in the set.
+
+By default, the outputs is just the same as inputs. To make the encryption works, you need to edit the wire connection (in the form of character mapping) in the rotors and reflector.
+
+Use the "Edit" button on the rotor panel or the reflector panel to edit the connection. For convenience, you can use the random button to generate a random rotor connection.
+
+The most interest part of Enigma Machine is that the decoding process is just the same as the encoding process. This mechanism requires a special reflector connection: the character mapping needs to be one-one correspondence. For example, if 'A' is mapped to 'B', then 'B' must be mapped to 'A'. Remember not to map a character to itself, or it will not be encrypted.
+
+When you set up the rotors and reflector, use the "SAVE" button to save the machine configuration to a file, so that you can use it to decode the ciphertext again.

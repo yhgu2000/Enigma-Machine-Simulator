@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="AboutDialog.ui" line="14"/>
+        <source>About</source>
+        <translation>关于</translation>
+    </message>
+</context>
+<context>
     <name>EditRotorDialog</name>
     <message>
         <location filename="EditRotorDialog.ui" line="17"/>
@@ -89,7 +97,7 @@
     </message>
     <message>
         <location filename="EnigmaMachine.ui" line="262"/>
-        <location filename="EnigmaMachine.cpp" line="135"/>
+        <location filename="EnigmaMachine.cpp" line="147"/>
         <source>REFLECTOR</source>
         <translation>反射器</translation>
     </message>
@@ -134,67 +142,67 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="65"/>
+        <location filename="EnigmaMachine.cpp" line="80"/>
         <source>⚠ enigma only accepts letters</source>
         <translation>⚠ 恩尼格码只接受字母输入</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="158"/>
+        <location filename="EnigmaMachine.cpp" line="170"/>
         <source>Import from File ...</source>
         <translation>导入文件...</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="160"/>
-        <location filename="EnigmaMachine.cpp" line="222"/>
+        <location filename="EnigmaMachine.cpp" line="172"/>
+        <location filename="EnigmaMachine.cpp" line="234"/>
         <source>Enigma Machine Status (*.ems)</source>
         <translation>恩尼格玛机状态文件 (*.ems)</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="166"/>
-        <location filename="EnigmaMachine.cpp" line="215"/>
+        <location filename="EnigmaMachine.cpp" line="178"/>
+        <location filename="EnigmaMachine.cpp" line="227"/>
         <source>Load Failed</source>
         <translation>加载失败</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="166"/>
-        <location filename="EnigmaMachine.cpp" line="228"/>
+        <location filename="EnigmaMachine.cpp" line="178"/>
+        <location filename="EnigmaMachine.cpp" line="240"/>
         <source>cannot open file</source>
         <translation>文件无法打开</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="211"/>
-        <location filename="EnigmaMachine.cpp" line="249"/>
+        <location filename="EnigmaMachine.cpp" line="223"/>
+        <location filename="EnigmaMachine.cpp" line="261"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="211"/>
+        <location filename="EnigmaMachine.cpp" line="223"/>
         <source>macine status loaded</source>
         <translation>机器状态已加载</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="215"/>
+        <location filename="EnigmaMachine.cpp" line="227"/>
         <source>fail to dncode file</source>
         <translation>文件解码失败</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="222"/>
+        <location filename="EnigmaMachine.cpp" line="234"/>
         <source>Export to File ...</source>
         <translation>导出文件...</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="228"/>
-        <location filename="EnigmaMachine.cpp" line="254"/>
+        <location filename="EnigmaMachine.cpp" line="240"/>
+        <location filename="EnigmaMachine.cpp" line="266"/>
         <source>Save Failed</source>
         <translation>保存失败</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="249"/>
+        <location filename="EnigmaMachine.cpp" line="261"/>
         <source>File Saved</source>
         <translation>文件已保存</translation>
     </message>
     <message>
-        <location filename="EnigmaMachine.cpp" line="254"/>
+        <location filename="EnigmaMachine.cpp" line="266"/>
         <source>fail to encode machine</source>
         <translation>机器状态解码失败</translation>
     </message>
@@ -233,54 +241,59 @@
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="127"/>
+        <location filename="MainWindow.ui" line="126"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="137"/>
+        <location filename="MainWindow.ui" line="136"/>
         <source>Reset Machine</source>
         <oldsource>Reset</oldsource>
-        <translation type="unfinished">重置机器</translation>
+        <translation>重置机器</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="142"/>
+        <location filename="MainWindow.ui" line="141"/>
         <source>Paste Input</source>
         <translation>粘贴输入</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="147"/>
+        <location filename="MainWindow.ui" line="146"/>
         <source>Tutorial...</source>
         <translation>使用教程...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="152"/>
+        <location filename="MainWindow.ui" line="151"/>
         <source>What&apos;s Enigma...</source>
         <translation>什么是恩尼格玛...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="157"/>
+        <location filename="MainWindow.ui" line="156"/>
         <source>About...</source>
         <translation>关于...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="90"/>
+        <location filename="MainWindow.cpp" line="60"/>
+        <source>https://en.wikipedia.org/wiki/Enigma_machine</source>
+        <translation>https://baike.baidu.com/item/恩尼格玛密码机/5691350</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="105"/>
         <source>failed to load language file %1</source>
         <translation>载入语言文件 %1 失败</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="127"/>
+        <location filename="MainWindow.cpp" line="142"/>
         <source>cannot find language file for %1</source>
         <translation>语言文件 %1 无法找到</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="130"/>
+        <location filename="MainWindow.cpp" line="145"/>
         <source>change language to %1</source>
         <translation>切换语言为 %1</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="140"/>
-        <location filename="MainWindow.cpp" line="150"/>
+        <location filename="MainWindow.cpp" line="165"/>
+        <location filename="MainWindow.cpp" line="175"/>
         <source>outputs copied to clipboard</source>
         <translation>输出已复制</translation>
     </message>
@@ -314,6 +327,14 @@
         <location filename="RotorSlot.ui" line="107"/>
         <source>🖐️</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>Tutorial</name>
+    <message>
+        <location filename="Tutorial.ui" line="14"/>
+        <source>Tutorial</source>
+        <translation>使用教程</translation>
     </message>
 </context>
 </TS>

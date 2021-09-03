@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    AboutDialog.cpp \
     EditRotorDialog.cpp \
     EnigmaMachine.cpp \
     InfoBubble.cpp \
@@ -28,23 +29,28 @@ SOURCES += \
     Rotor.cpp \
     RotorSeparator.cpp \
     RotorSlot.cpp \
+    Tutorial.cpp \
     main.cpp
 
 HEADERS += \
+    AboutDialog.hpp \
     EditRotorDialog.hpp \
     EnigmaMachine.hpp \
     InfoBubble.hpp \
     MainWindow.hpp \
     Rotor.hpp \
     RotorSeparator.hpp \
-    RotorSlot.hpp
+    RotorSlot.hpp \
+    Tutorial.hpp
 
 FORMS += \
+    AboutDialog.ui \
     EditRotorDialog.ui \
     EnigmaMachine.ui \
     MainWindow.ui \
     RotorSeparator.ui \
-    RotorSlot.ui
+    RotorSlot.ui \
+    Tutorial.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

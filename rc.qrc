@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>key.wav</file>
+        <file>about.html</file>
+        <file>tutorial.txt</file>
     </qresource>
     <qresource prefix="/i18n">
         <file>en.qm</file>

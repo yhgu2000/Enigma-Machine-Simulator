@@ -111,7 +111,7 @@
      <string>Help</string>
     </property>
     <addaction name="actionTutorial"/>
-    <addaction name="actionEnigma_Machine"/>
+    <addaction name="actionWhatsEnigma"/>
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -119,8 +119,7 @@
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionReset_Machine"/>
-    <addaction name="actionInput_from_Clipboard"/>
+    <addaction name="actionReset"/>
    </widget>
    <widget class="QMenu" name="menuLanguage">
     <property name="title">
@@ -132,12 +131,12 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionReset_Machine">
+  <action name="actionReset">
    <property name="text">
     <string>Reset Machine</string>
    </property>
   </action>
-  <action name="actionInput_from_Clipboard">
+  <action name="actionPaste">
    <property name="text">
     <string>Paste Input</string>
    </property>
@@ -147,7 +146,7 @@
     <string>Tutorial...</string>
    </property>
   </action>
-  <action name="actionEnigma_Machine">
+  <action name="actionWhatsEnigma">
    <property name="text">
     <string>What's Enigma...</string>
    </property>
